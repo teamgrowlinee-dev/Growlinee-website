@@ -1580,6 +1580,10 @@
 
     var animArea = card.querySelector('div.mt-5');
     if (animArea) {
+      // Remove old static video placeholder (second direct child — the "Video tutvustus" button)
+      if (animArea.children[1]) animArea.children[1].remove();
+
+      // Add new interactive video
       var videoDiv = document.createElement('div');
       videoDiv.innerHTML = renderServiceVideo(
         '/videos/email-automation-en.mp4',
