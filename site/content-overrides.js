@@ -1572,6 +1572,27 @@
     );
   }
 
+  function updateServicesCard1() {
+    var cards = document.querySelectorAll('#services .group.relative');
+    var card = cards[0];
+    if (!card || card.getAttribute('data-gl-card1') === '1') return;
+
+    var animArea = card.querySelector('div.mt-5');
+    if (!animArea) return;
+
+    // Add shopbot video below existing animation
+    if (!animArea.querySelector('[data-gl-video-src]')) {
+      var videoDiv = document.createElement('div');
+      videoDiv.innerHTML = renderServiceVideo(
+        isEE ? '/videos/salesbot-et.mp4' : '/videos/shopbot-en.mp4',
+        'VIDEO DEMO'
+      );
+      animArea.appendChild(videoDiv.firstChild);
+    }
+
+    card.setAttribute('data-gl-card1', '1');
+  }
+
   function updateServicesCard2() {
     if (!isEN) return; // EN only for now — ET video coming soon
     var cards = document.querySelectorAll('#services .group.relative');
@@ -1581,11 +1602,15 @@
     var animArea = card.querySelector('div.mt-5');
     if (!animArea) return;
 
-    // Always remove old static placeholder (has a .h-64 child — static non-playable box)
-    var oldPlaceholder = animArea.children[1];
-    if (oldPlaceholder && oldPlaceholder.querySelector('.h-64')) {
-      oldPlaceholder.remove();
+    // Remove every child except [0] (animation) and our new video (has data-gl-video-src inside)
+    var toRemove = [];
+    for (var i = 1; i < animArea.children.length; i++) {
+      var child = animArea.children[i];
+      if (!child.querySelector('[data-gl-video-src]') && !child.hasAttribute('data-gl-video-src')) {
+        toRemove.push(child);
+      }
     }
+    toRemove.forEach(function(el) { el.remove(); });
 
     // Only add new video if not already present
     if (!animArea.querySelector('[data-gl-video-src]')) {
@@ -1645,6 +1670,7 @@
         ensurePricingAnchor();
         updateContactPartnerLogos();
         enhanceContactForm();
+        updateServicesCard1();
         updateServicesCard2();
         updateServicesCard3();
       }
