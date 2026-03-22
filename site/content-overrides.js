@@ -511,8 +511,20 @@
       "@keyframes glChat3{0%,37%,95%,100%{opacity:0}44%,55%{opacity:1}}" +
       "@keyframes glChat4{0%,52%,66%,95%,100%{opacity:0}58%,64%{opacity:1}}" +
       "@keyframes glChat5{0%,65%,95%,100%{opacity:0}72%,90%{opacity:1}}" +
+      "@keyframes glShop0{0%,4%,95%,100%{opacity:0}12%,55%{opacity:1}}" +
+      "@keyframes glShop1{0%,18%,95%,100%{opacity:0}26%,55%{opacity:1}}" +
+      "@keyframes glShop2{0%,25%,38%,95%,100%{opacity:0}30%,36%{opacity:1}}" +
+      "@keyframes glShop3{0%,37%,95%,100%{opacity:0}44%,55%{opacity:1}}" +
+      "@keyframes glShop4{0%,52%,66%,95%,100%{opacity:0}58%,64%{opacity:1}}" +
+      "@keyframes glShop5{0%,65%,95%,100%{opacity:0}72%,90%{opacity:1}}" +
+      "@keyframes glEmail0{0%,4%,95%,100%{opacity:0}12%,55%{opacity:1}}" +
+      "@keyframes glEmail1{0%,20%,95%,100%{opacity:0}28%,55%{opacity:1}}" +
+      "@keyframes glEmail2{0%,40%,95%,100%{opacity:0}48%,55%{opacity:1}}" +
+      "@keyframes glEmail3{0%,58%,95%,100%{opacity:0}66%,90%{opacity:1}}" +
       "@keyframes glDot{0%,100%{opacity:.3}50%{opacity:1}}" +
+      ".gl-shop-msg{opacity:0;animation-duration:10s;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-fill-mode:both}" +
       ".gl-chat-msg{opacity:0;animation-duration:10s;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-fill-mode:both}" +
+      ".gl-email-step{opacity:0;animation-duration:10s;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-fill-mode:both}" +
       ".gl-chat-typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);animation:glDot .8s ease-in-out infinite}" +
       ".gl-chat-typing span:nth-child(2){animation-delay:.15s}" +
       ".gl-chat-typing span:nth-child(3){animation-delay:.3s}";
@@ -1509,6 +1521,48 @@
     grid.prepend(article);
   }
 
+  function renderShopbotAnim() {
+    var cartSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>';
+    var checkSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+    var botMsg = isEE
+      ? 'Lisasid kaerapiima 🌾 — sobib 2 retseptiga. Näidata puuduvad tooted?'
+      : 'You added Oat Milk 🌾 — matches 2 recipes. Show missing items?';
+    var userMsg = isEE ? 'Jah, näita Green Power Smoothie\'t' : 'Yes, show Green Power Smoothie';
+    var ingredientsHtml =
+      '<div style="display:flex;flex-direction:column;gap:4px;font-size:10px;">' +
+        '<div style="display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.5);text-decoration:line-through;"><span style="width:5px;height:5px;border-radius:50%;background:#555;flex-shrink:0;"></span>' + (isEE ? 'Kaerapiim' : 'Oat Milk') + '<span style="margin-left:auto;">✓</span></div>' +
+        '<div style="display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.85);"><span style="width:5px;height:5px;border-radius:50%;background:#86E0C7;flex-shrink:0;"></span>' + (isEE ? 'Spinat' : 'Spinach') + '<span style="margin-left:auto;font-weight:600;">€1.20</span></div>' +
+        '<div style="display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.85);"><span style="width:5px;height:5px;border-radius:50%;background:#86E0C7;flex-shrink:0;"></span>' + (isEE ? 'Kanepiseemned' : 'Hemp Seeds') + '<span style="margin-left:auto;font-weight:600;">€3.70</span></div>' +
+      '</div>';
+    var addBtn = isEE ? 'Lisa 2 puuduvat toodet — €4.90' : 'Add 2 missing items — €4.90';
+    var confirmMsg = isEE ? '2 toodet lisatud ostukorvi 🛒' : '2 items added to cart 🛒';
+    return (
+      '<div style="border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);padding:12px;">' +
+        '<div style="display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:10px;margin-bottom:10px;">' +
+          '<div style="display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(134,224,199,.2);color:#86E0C7;">' + cartSvg + '</div>' +
+          '<span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.85);">Growlinee</span>' +
+          '<span style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:10px;color:#6ee7b7;">' +
+            '<span style="width:6px;height:6px;border-radius:50%;background:#6ee7b7;display:inline-block;"></span>' +
+            (isEE ? 'Online' : 'Online') +
+          '</span>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:7px;">' +
+          '<div class="gl-shop-msg" style="animation-name:glShop0;align-self:flex-start;max-width:88%;border-radius:14px 14px 14px 3px;background:rgba(38,38,38,.85);padding:7px 10px;font-size:11px;color:rgba(255,255,255,.8);">' + botMsg + '</div>' +
+          '<div class="gl-shop-msg" style="animation-name:glShop1;align-self:flex-end;max-width:82%;border-radius:14px 14px 3px 14px;background:rgba(3,125,201,.65);padding:7px 10px;font-size:11px;color:#fff;">' + userMsg + '</div>' +
+          '<div class="gl-shop-msg gl-chat-typing" style="animation-name:glShop2;align-self:flex-start;border-radius:14px 14px 14px 3px;background:rgba(38,38,38,.85);padding:9px 12px;display:flex;gap:4px;">' +
+            '<span></span><span></span><span></span>' +
+          '</div>' +
+          '<div class="gl-shop-msg" style="animation-name:glShop3;align-self:flex-start;max-width:92%;border-radius:14px 14px 14px 3px;background:rgba(38,38,38,.85);padding:8px 10px;">' + ingredientsHtml + '</div>' +
+          '<div class="gl-shop-msg" style="animation-name:glShop4;align-self:stretch;border-radius:9px;background:rgba(134,224,199,.15);border:1px solid rgba(134,224,199,.35);padding:7px 10px;font-size:11px;font-weight:700;color:#86E0C7;text-align:center;cursor:default;">' + addBtn + '</div>' +
+          '<div class="gl-shop-msg" style="animation-name:glShop5;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(134,224,199,.2);background:rgba(6,78,59,.25);padding:7px 10px;font-size:11px;color:#a7f3d0;">' +
+            checkSvg +
+            '<span>' + confirmMsg + '</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
   function renderChatbotAnim() {
     var iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>';
     var checkSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
@@ -1580,47 +1634,69 @@
     var animArea = card.querySelector('div.mt-5');
     if (!animArea) return;
 
-    // Add shopbot video below existing animation
+    // Replace existing animation with shopbot anim + video
     if (!animArea.querySelector('[data-gl-video-src]')) {
-      var videoDiv = document.createElement('div');
-      videoDiv.innerHTML = renderServiceVideo(
+      animArea.innerHTML = renderShopbotAnim() + renderServiceVideo(
         isEE ? '/videos/salesbot-et.mp4' : '/videos/shopbot-en.mp4',
         'VIDEO DEMO'
       );
-      animArea.appendChild(videoDiv.firstChild);
     }
 
     card.setAttribute('data-gl-card1', '1');
+  }
+
+  function renderEmailAnim() {
+    var sendSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+    var checkSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+    var botSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+    return (
+      '<div style="border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);padding:12px;">' +
+        '<div style="display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:10px;margin-bottom:10px;">' +
+          '<div style="display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(134,224,199,.2);color:#86E0C7;">' + sendSvg + '</div>' +
+          '<span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.85);">Email Automation</span>' +
+          '<span style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:10px;color:#6ee7b7;">' +
+            '<span style="width:6px;height:6px;border-radius:50%;background:#6ee7b7;display:inline-block;"></span>' +
+            'Active' +
+          '</span>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:7px;">' +
+          '<div class="gl-email-step" style="animation-name:glEmail0;display:flex;align-items:center;gap:8px;border-radius:10px;background:rgba(134,224,199,.08);border:1px solid rgba(134,224,199,.2);padding:7px 10px;">' +
+            '<span style="color:#86E0C7;">' + botSvg + '</span>' +
+            '<span style="font-size:11px;color:rgba(255,255,255,.75);">AI scrapes <strong style="color:#86E0C7;">Innomine.ee</strong> for context</span>' +
+          '</div>' +
+          '<div class="gl-email-step" style="animation-name:glEmail1;border-radius:10px;background:rgba(38,38,38,.85);border:1px solid rgba(255,255,255,.08);padding:8px 10px;">' +
+            '<div style="font-size:10px;color:rgba(255,255,255,.4);margin-bottom:4px;">To: mark@innomine.ee</div>' +
+            '<div style="font-size:11px;color:rgba(255,255,255,.85);line-height:1.4;">Hey Mark, noticed Innomine handles quote follow-ups manually — we fix that with AI.</div>' +
+          '</div>' +
+          '<div class="gl-email-step" style="animation-name:glEmail2;display:flex;align-items:center;gap:7px;border-radius:9999px;background:rgba(134,224,199,.12);border:1px solid rgba(134,224,199,.3);padding:5px 10px;font-size:11px;font-weight:600;color:#86E0C7;">' +
+            '<span style="color:#6ee7b7;">' + sendSvg + '</span>' +
+            'Sent — 2 follow-ups scheduled automatically' +
+          '</div>' +
+          '<div class="gl-email-step" style="animation-name:glEmail3;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(110,231,183,.2);background:rgba(6,78,59,.25);padding:7px 10px;font-size:11px;color:#a7f3d0;">' +
+            '<span>' + checkSvg + '</span>' +
+            '<span style="flex:1;">Mark replied — Reply Agent closes the deal</span>' +
+            '<span style="border-radius:9999px;border:1px solid rgba(110,231,183,.3);background:rgba(110,231,183,.1);padding:2px 7px;font-size:9px;color:#6ee7b7;white-space:nowrap;">Booked</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
   }
 
   function updateServicesCard2() {
     if (!isEN) return; // EN only for now — ET video coming soon
     var cards = document.querySelectorAll('#services .group.relative');
     var card = cards[1];
-    if (!card) return;
+    if (!card || card.getAttribute('data-gl-card2') === '1') return;
 
     var animArea = card.querySelector('div.mt-5');
     if (!animArea) return;
 
-    // Remove every child except [0] (animation) and our new video (has data-gl-video-src inside)
-    var toRemove = [];
-    for (var i = 1; i < animArea.children.length; i++) {
-      var child = animArea.children[i];
-      if (!child.querySelector('[data-gl-video-src]') && !child.hasAttribute('data-gl-video-src')) {
-        toRemove.push(child);
-      }
-    }
-    toRemove.forEach(function(el) { el.remove(); });
+    animArea.innerHTML = renderEmailAnim() + renderServiceVideo(
+      '/videos/email-automation-en.mp4',
+      'VIDEO DEMO'
+    );
 
-    // Only add new video if not already present
-    if (!animArea.querySelector('[data-gl-video-src]')) {
-      var videoDiv = document.createElement('div');
-      videoDiv.innerHTML = renderServiceVideo(
-        '/videos/email-automation-en.mp4',
-        'VIDEO DEMO'
-      );
-      animArea.appendChild(videoDiv.firstChild);
-    }
+    card.setAttribute('data-gl-card2', '1');
   }
 
   function updateServicesCard3() {
