@@ -1572,6 +1572,23 @@
     );
   }
 
+  function updateServicesCard2() {
+    if (!isEN) return; // EN only for now — ET video coming soon
+    var cards = document.querySelectorAll('#services .group.relative');
+    var card = cards[1];
+    if (!card || card.getAttribute('data-gl-card2') === '1') return;
+
+    var animArea = card.querySelector('div.mt-5');
+    if (animArea) {
+      animArea.innerHTML = renderServiceVideo(
+        '/videos/email-automation-en.mp4',
+        'VIDEO DEMO'
+      );
+    }
+
+    card.setAttribute('data-gl-card2', '1');
+  }
+
   function updateServicesCard3() {
     var cards = document.querySelectorAll('#services .group.relative');
     var card = cards[2];
@@ -1619,6 +1636,7 @@
         ensurePricingAnchor();
         updateContactPartnerLogos();
         enhanceContactForm();
+        updateServicesCard2();
         updateServicesCard3();
       }
 
