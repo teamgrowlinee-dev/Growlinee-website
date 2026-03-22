@@ -1576,14 +1576,19 @@
     if (!isEN) return; // EN only for now — ET video coming soon
     var cards = document.querySelectorAll('#services .group.relative');
     var card = cards[1];
-    if (!card || card.getAttribute('data-gl-card2') === '1') return;
+    if (!card) return;
 
     var animArea = card.querySelector('div.mt-5');
-    if (animArea) {
-      // Remove old static video placeholder (second direct child — the "Video tutvustus" button)
-      if (animArea.children[1]) animArea.children[1].remove();
+    if (!animArea) return;
 
-      // Add new interactive video
+    // Always remove old static placeholder (has a .h-64 child — static non-playable box)
+    var oldPlaceholder = animArea.children[1];
+    if (oldPlaceholder && oldPlaceholder.querySelector('.h-64')) {
+      oldPlaceholder.remove();
+    }
+
+    // Only add new video if not already present
+    if (!animArea.querySelector('[data-gl-video-src]')) {
       var videoDiv = document.createElement('div');
       videoDiv.innerHTML = renderServiceVideo(
         '/videos/email-automation-en.mp4',
@@ -1591,8 +1596,6 @@
       );
       animArea.appendChild(videoDiv.firstChild);
     }
-
-    card.setAttribute('data-gl-card2', '1');
   }
 
   function updateServicesCard3() {
