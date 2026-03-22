@@ -1590,7 +1590,7 @@
     if (desc) desc.textContent = copy.service3Desc;
 
     // Replace animation area with chatbot anim + video
-    var animArea = card.querySelector('.mt-5');
+    var animArea = card.querySelector('div.mt-5');
     if (animArea) {
       animArea.innerHTML = renderChatbotAnim() + renderServiceVideo(
         isEE ? '/videos/salesbot-et.mp4' : '/videos/salesbot-en.mp4',
