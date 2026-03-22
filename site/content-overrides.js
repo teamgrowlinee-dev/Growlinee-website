@@ -1580,10 +1580,12 @@
 
     var animArea = card.querySelector('div.mt-5');
     if (animArea) {
-      animArea.innerHTML = renderServiceVideo(
+      var videoDiv = document.createElement('div');
+      videoDiv.innerHTML = renderServiceVideo(
         '/videos/email-automation-en.mp4',
         'VIDEO DEMO'
       );
+      animArea.appendChild(videoDiv.firstChild);
     }
 
     card.setAttribute('data-gl-card2', '1');
@@ -1610,7 +1612,7 @@
     var animArea = card.querySelector('div.mt-5');
     if (animArea) {
       animArea.innerHTML = renderChatbotAnim() + renderServiceVideo(
-        isEE ? '/videos/salesbot-et.mp4' : '/videos/salesbot-en.mp4',
+        isEE ? '/videos/salesbot-et.mp4' : '/videos/shopbot-en.mp4',
         copy.service3VideoLabel
       );
     }
